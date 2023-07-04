@@ -11,7 +11,7 @@ public static class MonoBehaviourExtensions
 
 	private static IEnumerator executeWithDelay(Action action, float delay)
 	{
-    	yield return new WaitForSeconds(delay);
-    	action?.Invoke();
+    		yield return new WaitForSeconds(delay);
+    		action?.Invoke();
 	}
 }
