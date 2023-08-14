@@ -1,8 +1,18 @@
 using System;
 using UnityEngine;
 
-public class GlobalHandleSO<T> : ScriptableObject where T : Component
+/// <summary>
+/// This class is only made to make use of polymorphism. Use the generic version of <see cref="GlobalHandleSO{T}"/> instead.
+/// </summary>
+public abstract class GlobalHandleSO : ScriptableObject
 {
+    public abstract Component InstanceAsComponent { get; }
+}
+
+public class GlobalHandleSO<T> : GlobalHandleSO where T : Component
+{
+    public override Component InstanceAsComponent => Instance as Component;
+    
     public T Instance { get; private set; }
 
     public event Action<T> OnAfterInstanceRegistered = delegate { };
