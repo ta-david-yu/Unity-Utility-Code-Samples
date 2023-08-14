@@ -27,28 +27,28 @@ public class RegisterToRuntimeSet : MonoBehaviour
 public class RegisterToRuntimeSet<T> : RegisterToRuntimeSet where T : UnityEngine.Object
 {
     [SerializeField]
-    private T _instance;
+    private T m_Instance;
 
     [SerializeField]
-    private RuntimeSetSO<T> _runtimeSet;
+    private RuntimeSetSO<T> m_RuntimeSet;
 
     protected override void _Awake()
     {
-        if (!_instance || !_runtimeSet)
+        if (!m_Instance || !m_RuntimeSet)
         {
             return;
         }
 
-        _runtimeSet.AddInstance(_instance);
+        m_RuntimeSet.AddInstance(m_Instance);
     }
 
     protected override void _OnDestroy()
     {
-        if (!_instance || !_runtimeSet)
+        if (!m_Instance || !m_RuntimeSet)
         {
             return;
         }
 
-        _runtimeSet.RemoveInstance(_instance);
+        m_RuntimeSet.RemoveInstance(m_Instance);
     }
 }

@@ -13,14 +13,14 @@ public abstract class RuntimeSetSO : ScriptableObject
 
 public class RuntimeSetSO<T> : RuntimeSetSO where T : UnityEngine.Object
 {
-    private List<T> _instances = new List<T>();
-    public IReadOnlyList<T> Instances => _instances.AsReadOnly();
+    private List<T> m_Instances = new List<T>();
+    public IReadOnlyList<T> Instances => m_Instances.AsReadOnly();
 
     /// <summary>
     /// This is slow, avoid using this in critical path.
     /// </summary>
     public override IReadOnlyList<UnityEngine.Object> InstancesAsObjects =>
-        _instances.Cast<UnityEngine.Object>() as IReadOnlyList<UnityEngine.Object>;
+        m_Instances.Cast<UnityEngine.Object>() as IReadOnlyList<UnityEngine.Object>;
 
     public event Action<T> OnAfterInstanceAdded = delegate { };
     public event Action<T> OnBeforeInstanceRemoved = delegate { };
@@ -29,7 +29,7 @@ public class RuntimeSetSO<T> : RuntimeSetSO where T : UnityEngine.Object
 
     public void AddInstance(T instanceToAdd)
     {
-        bool isIncluded = _instances.Contains(instanceToAdd);
+        bool isIncluded = m_Instances.Contains(instanceToAdd);
         if (isIncluded)
         {
             Debug.LogError($"The {nameof(T)} instance ({instanceToAdd.name}) has already been added to the set.",
@@ -37,17 +37,17 @@ public class RuntimeSetSO<T> : RuntimeSetSO where T : UnityEngine.Object
             return;
         }
 
-        _instances.Add(instanceToAdd);
+        m_Instances.Add(instanceToAdd);
         OnAfterInstanceAdded?.Invoke(instanceToAdd);
 
-        OnSetUpdated?.Invoke(_instances.ToList());
+        OnSetUpdated?.Invoke(m_Instances.ToList());
     }
 
     public void RemoveInstance(T instanceToRemove)
     {
         OnBeforeInstanceRemoved?.Invoke(instanceToRemove);
-        _instances.Remove(instanceToRemove);
+        m_Instances.Remove(instanceToRemove);
 
-        OnSetUpdated?.Invoke(_instances.ToList());
+        OnSetUpdated?.Invoke(m_Instances.ToList());
     }
 }
