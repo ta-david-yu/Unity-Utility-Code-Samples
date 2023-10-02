@@ -3,7 +3,7 @@ using UnityEditor;
 [CustomEditor(typeof(GlobalHandleSO<>), true)]
 public class GlobalHandleSOEditor : Editor
 {
-    private static bool m_DefaultInspectorFoldout = false;
+    private static bool s_DefaultInspectorFoldout = false;
 
     public override void OnInspectorGUI()
     {
@@ -27,10 +27,10 @@ public class GlobalHandleSOEditor : Editor
         }
 
         EditorGUILayout.Separator();
-        m_DefaultInspectorFoldout =
-            EditorGUILayout.Foldout(m_DefaultInspectorFoldout, "Default Inspector", EditorStyles.foldoutHeader);
+        s_DefaultInspectorFoldout =
+            EditorGUILayout.Foldout(s_DefaultInspectorFoldout, "Default Inspector", EditorStyles.foldoutHeader);
 
-        if (m_DefaultInspectorFoldout)
+        if (s_DefaultInspectorFoldout)
         {
             EditorGUILayout.LabelField("Default Inspector", EditorStyles.centeredGreyMiniLabel);
             base.OnInspectorGUI();
